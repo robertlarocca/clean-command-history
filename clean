@@ -1,0 +1,166 @@
+#!/bin/bash
+
+# Copyright (c) 2018-2021 Robert LaRocca https://www.laroccx.com
+
+# Remove history files created using the GNU History Library.
+
+script_version='2.0.16'
+script_release='beta'	# options devel, beta, release
+
+# Command
+alias clean="clean_history_files"
+
+# Display help information
+display_help_message()
+{
+	cat <<-EOF_XYZ
+	Usage: clean [OPTION] [TIME] [WALL]...
+	Remove history files created using the GNU History Library.
+
+	The following options and long options are understood:
+	  -a, --all		remove all history files and clear scrollback
+	  -A, --almost-all	remove most history files and clear scrollback
+	  -e, --exit		clean history and terminate the current shell
+	  -h, --halt		clean history and halt the machine
+	  -r, --reboot		clean history and reboot the machine
+	  -p, --poweroff	clean history and power-off the machine
+	  -s, --shutdown	clean history and shutdown the machine
+	  -G, --config		add the required enviroment variables to support clean
+	  -H, --help		print this help information
+	  -V, --version		print the version information
+
+	The second argument must be a [TIME] string (the default is "now").
+	This may be followed with a [WALL] message. If included the message
+	will be broadcasted to users before shutdown.
+
+	Examples:
+	 clean -a
+	 clean --exit
+	 clean --reboot now
+	 clean --p +5 "shutdown initiated by clean.sh"
+
+	History files:
+	 ansible
+	 bash_history
+	 bash_sessions
+	 lesshst
+	 mysql_history
+	 python_history
+	 viminfo
+	 wget-hsts
+	 zsh_history
+
+	Copyright:
+	 Copyright (c) 2018-$(date +%Y) LaRoccx LLC, <http://www.laroccx.com>
+	 License: The MIT License (MIT)
+	 Source Code: <https://github.com/robertlarocca/clean-command-history>
+	EOF_XYZ
+};
+
+# Display version information
+display_version_information()
+{
+	cat <<-EOF_XYZ
+	clean $script_version-$script_release
+	Copyright (c) 2018-$(date +%Y) Robert LaRocca, <http://www.laroccx.com>
+	License: The MIT License (MIT)
+	Source Code: <https://github.com/robertlarocca/clean-command-history>
+	EOF_XYZ
+};
+# Remove all history files and clear scrollback
+remove_all_history()
+{
+	rm -f $HOME/.bash_history
+	rm -rf $HOME/.bash_sessions
+	rm -rf $HOME/.ansible
+	rm -f $HOME/.lesshst
+	rm -f $HOME/.mysql_history
+	rm -f $HOME/.python_history
+	rm -f $HOME/.selected_editor
+	rm -f $HOME/.sudo_as_admin_successful
+	rm -f $HOME/.viminfo
+	rm -f $HOME/.wget-hsts
+	rm -f $HOME/.zsh_history
+	history -c
+	clear
+};
+
+# Remove history files and clear scrollback
+remove_almost_all_history()
+{
+	rm -f $HOME/.bash_history
+	rm -rf $HOME/.bash_sessions
+	rm -f $HOME/.lesshst
+	rm -f $HOME/.mysql_history
+	rm -f $HOME/.python_history
+	rm -f $HOME/.wget-hsts
+	rm -f $HOME/.zsh_history
+	history -c
+	clear
+};
+
+# User arguments
+clean_history_files()
+{
+	case "$1" in
+	-a | --all)
+		remove_all_history
+		;;
+	-A | --almost-all)
+		remove_almost_all_history
+		;;
+	-e | --exit)
+		remove_almost_all_history
+		exit 0
+		;;
+	-h | --halt)
+		remove_almost_all_history
+		if [ -z "$2" ]; then
+			/usr/bin/sudo shutdown --halt +0
+		else
+			/usr/bin/sudo shutdown --halt "$2" "$3"
+		fi
+		;;
+	-r | --reboot)
+		remove_almost_all_history
+		if [ -z "$2" ]; then
+			/usr/bin/sudo shutdown --reboot +0
+		else
+			/usr/bin/sudo shutdown --reboot "$2" "$3"
+		fi
+		;;
+	-p | --poweroff)
+		remove_almost_all_history
+		if [ -z "$2" ]; then
+			/usr/bin/sudo shutdown --poweroff +0
+		else
+			/usr/bin/sudo shutdown --poweroff "$2" "$3"
+		fi
+		;;
+	-s | --shutdown)
+		remove_almost_all_history
+		if [ -z "$2" ]; then
+			/usr/bin/sudo shutdown --poweroff +0
+		else
+			/usr/bin/sudo shutdown --poweroff "$2" "$3"
+		fi
+		;;
+	-H | --help)
+		display_help_message
+		;;
+	-V | --version)
+		display_version_information
+		;;
+	*)
+		if [ -z "$1" ]; then
+			remove_almost_all_history
+		else
+			cat <<-EOF_XYZ
+			clean: unrecognized option '$1'
+			Try 'clean --help' for more information.
+			EOF_XYZ
+		fi
+		;;
+	esac
+};
+

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Copyright (c) 2021 LaRoccx LLC http://www.laroccx.com
+
+# require root privileges
+require_root_privileges() {
+	if [ $(id -u) != 0 ]; then
+		logger -i "Error: $(basename $0 .sh) must be run as root!"
+		echo "Error: $(basename $0 .sh) must be run as root!"
+		exit 1
+	fi
+};
+
+require_root_privileges
+
+main() {
+	# install clean command
+	cp -b -S .bak -v $PWD/clean /usr/local/bin/
+
+	# enable clean command
+	cat <<-EOF_XYZ >> /etc/bash.bashrc
+
+	# enable clean-bash-history command
+	if [ -f /usr/local/bin/clean ]; then
+		. /usr/local/bin/clean
+	fi
+	EOF_XYZ
+};
+
+main "$@"
+
