@@ -11,8 +11,7 @@ script_release='beta'	# options devel, beta, release
 alias clean="clean_history_files"
 
 # Display help information
-display_help_message()
-{
+display_help_message() {
 	cat <<-EOF_XYZ
 	Usage: clean [OPTION] [TIME] [WALL]...
 	Remove history files created using the GNU History Library.
@@ -51,25 +50,24 @@ display_help_message()
 	 zsh_history
 
 	Copyright:
-	 Copyright (c) 2018-$(date +%Y) LaRoccx LLC, <http://www.laroccx.com>
+	 Copyright (c) 2018-$(date +%Y) Robert LaRocca, https://www.laroccx.com
 	 License: The MIT License (MIT)
-	 Source Code: <https://github.com/robertlarocca/clean-command-history>
+	 Source Code: https://github.com/robertlarocca/clean-command-history
 	EOF_XYZ
 };
 
 # Display version information
-display_version_information()
-{
+display_version_information() {
 	cat <<-EOF_XYZ
 	clean $script_version-$script_release
-	Copyright (c) 2018-$(date +%Y) Robert LaRocca, <http://www.laroccx.com>
+	Copyright (c) 2018-$(date +%Y) Robert LaRocca, https://www.laroccx.com
 	License: The MIT License (MIT)
-	Source Code: <https://github.com/robertlarocca/clean-command-history>
+	Source Code: https://github.com/robertlarocca/clean-command-history
 	EOF_XYZ
 };
-# Remove all history files and clear scrollback
-remove_all_history()
-{
+
+# Remove all history files and clear scroll back
+remove_all_history() {
 	rm -f $HOME/.bash_history
 	rm -rf $HOME/.bash_sessions
 	rm -rf $HOME/.ansible
@@ -85,9 +83,8 @@ remove_all_history()
 	clear
 };
 
-# Remove history files and clear scrollback
-remove_almost_all_history()
-{
+# Remove history files and clear scroll back
+remove_almost_all_history() {
 	rm -f $HOME/.bash_history
 	rm -rf $HOME/.bash_sessions
 	rm -f $HOME/.lesshst
@@ -100,8 +97,7 @@ remove_almost_all_history()
 };
 
 # User arguments
-clean_history_files()
-{
+clean_history_files() {
 	case "$1" in
 	-a | --all)
 		remove_all_history

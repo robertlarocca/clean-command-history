@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (c) 2021 LaRoccx LLC http://www.laroccx.com
+# Copyright (c) 2021 Robert LaRocca http://www.laroccx.com
 
 # require root privileges
 require_root_privileges() {
