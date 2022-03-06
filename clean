@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Copyright (c) 2018-2021 Robert LaRocca https://www.laroccx.com
+# Copyright (c) 2018-2022 Robert LaRocca https://www.laroccx.com
 
 # Remove history files created using the GNU History Library.
 
-script_version='2.0.16'
-script_release='beta'	# options devel, beta, release
+script_version='2.0.17'
+script_release='release' # options devel, beta, release
 
 # Command
 alias clean="clean_history_files"
@@ -13,58 +13,58 @@ alias clean="clean_history_files"
 # Display help information
 display_help_message() {
 	cat <<-EOF_XYZ
-	Usage: clean [OPTION] [TIME] [WALL]...
-	Remove history files created using the GNU History Library.
+		Usage: clean [OPTION] [TIME] [WALL]...
+		Remove history files created using the GNU History Library.
 
-	The following options and long options are understood:
-	  -a, --all		remove all history files and clear scrollback
-	  -A, --almost-all	remove most history files and clear scrollback
-	  -e, --exit		clean history and terminate the current shell
-	  -h, --halt		clean history and halt the machine
-	  -r, --reboot		clean history and reboot the machine
-	  -p, --poweroff	clean history and power-off the machine
-	  -s, --shutdown	clean history and shutdown the machine
-	  -G, --config		add the required enviroment variables to support clean
-	  -H, --help		print this help information
-	  -V, --version		print the version information
+		The following options and long options are understood:
+		  -A, --all         remove all history files and clear scrollback
+		  -a, --almost-all remove most history files and clear scrollback
+		  -e, --exit        clean history and terminate the current shell
+		  -h, --halt        clean history and halt the machine
+		  -r, --reboot      clean history and reboot the machine
+		  -p, --poweroff   clean history and power-off the machine
+		  -s, --shutdown   clean history and shutdown the machine
+		  -G, --config      add the required enviroment variables to support clean
+		  -H, --help        print this help information
+		  -V, --version     print the version information
 
-	The second argument must be a [TIME] string (the default is "now").
-	This may be followed with a [WALL] message. If included the message
-	will be broadcasted to users before shutdown.
+		The second argument must be a [TIME] string (the default is "now").
+		This may be followed with a [WALL] message. If included the message
+		will be broadcasted to users before shutdown.
 
-	Examples:
-	 clean -a
-	 clean --exit
-	 clean --reboot now
-	 clean --p +5 "shutdown initiated by clean.sh"
+		Examples:
+		 clean -a
+		 clean --exit
+		 clean --reboot now
+		 clean --p +5 "shutdown initiated by clean.sh"
 
-	History files:
-	 ansible
-	 bash_history
-	 bash_sessions
-	 lesshst
-	 mysql_history
-	 python_history
-	 viminfo
-	 wget-hsts
-	 zsh_history
+		History files:
+		 ansible
+		 bash_history
+		 bash_sessions
+		 lesshst
+		 mysql_history
+		 python_history
+		 viminfo
+		 wget-hsts
+		 zsh_history
 
-	Copyright:
-	 Copyright (c) 2018-$(date +%Y) Robert LaRocca, https://www.laroccx.com
-	 License: The MIT License (MIT)
-	 Source Code: https://github.com/robertlarocca/clean-command-history
+		Copyright:
+		 Copyright (c) 2018-$(date +%Y) Robert LaRocca, https://www.laroccx.com
+		 License: The MIT License (MIT)
+		 Source Code: https://github.com/robertlarocca/clean-command-history
 	EOF_XYZ
-};
+}
 
 # Display version information
 display_version_information() {
 	cat <<-EOF_XYZ
-	clean $script_version-$script_release
-	Copyright (c) 2018-$(date +%Y) Robert LaRocca, https://www.laroccx.com
-	License: The MIT License (MIT)
-	Source Code: https://github.com/robertlarocca/clean-command-history
+		clean $script_version-$script_release
+		Copyright (c) 2018-$(date +%Y) Robert LaRocca, https://www.laroccx.com
+		License: The MIT License (MIT)
+		Source Code: https://github.com/robertlarocca/clean-command-history
 	EOF_XYZ
-};
+}
 
 # Remove all history files and clear scroll back
 remove_all_history() {
@@ -81,7 +81,7 @@ remove_all_history() {
 	rm -f $HOME/.zsh_history
 	history -c
 	clear
-};
+}
 
 # Remove history files and clear scroll back
 remove_almost_all_history() {
@@ -94,15 +94,15 @@ remove_almost_all_history() {
 	rm -f $HOME/.zsh_history
 	history -c
 	clear
-};
+}
 
 # User arguments
 clean_history_files() {
 	case "$1" in
-	-a | --all)
+	-A | --all)
 		remove_all_history
 		;;
-	-A | --almost-all)
+	-a | --almost-all)
 		remove_almost_all_history
 		;;
 	-e | --exit)
@@ -152,11 +152,10 @@ clean_history_files() {
 			remove_almost_all_history
 		else
 			cat <<-EOF_XYZ
-			clean: unrecognized option '$1'
-			Try 'clean --help' for more information.
+				clean: unrecognized option '$1'
+				Try 'clean --help' for more information.
 			EOF_XYZ
 		fi
 		;;
 	esac
-};
-
+}

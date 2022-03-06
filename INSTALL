@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (c) 2021 Robert LaRocca http://www.laroccx.com
+# Copyright (c) 2022 Robert LaRocca http://www.laroccx.com
 
 # require root privileges
 require_root_privileges() {
@@ -9,23 +9,31 @@ require_root_privileges() {
 		echo "Error: $(basename $0 .sh) must be run as root!"
 		exit 1
 	fi
-};
+}
 
 require_root_privileges
 
 main() {
-	# install clean command
+	# Install clean command
 	cp -b -S .bak -v $PWD/clean /usr/local/bin/
 
-	# enable clean command
-	cat <<-EOF_XYZ >> /etc/bash.bashrc
+	chown root:root /usr/local/bin/clean
+	chmod 0755 /usr/local/bin/clean
 
-	# enable clean-bash-history command
-	if [ -f /usr/local/bin/clean ]; then
-		. /usr/local/bin/clean
-	fi
+	# Enable clean command
+	cat <<-EOF_XYZ >/etc/profile.d/clean.sh
+		# Copyright (c) 2022 Robert LaRocca http://www.laroccx.com
+
+		# Enable clean command for interactive shells
+		if [ -f /usr/local/bin/clean ]; then
+			. /usr/local/bin/clean
+		fi
 	EOF_XYZ
-};
+
+	chown root:root /etc/profile.d/clean.sh
+	chmod 0644 /etc/profile.d/clean.sh
+}
 
 main "$@"
 
+# vi: syntax=sh ts=4 noexpandtab
