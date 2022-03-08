@@ -20,11 +20,16 @@ main() {
 	chown root:root /usr/local/bin/clean
 	chmod 0755 /usr/local/bin/clean
 
-	# Enable clean command
+	# Noninteractive (nologin) shells
 	cat <<-EOF_XYZ >/etc/profile.d/clean.sh
-		# Copyright (c) 2022 Robert LaRocca http://www.laroccx.com
+		# Copyright (c) 2018-$(date +%Y) Robert LaRocca https://www.laroccx.com
 
-		# Enable clean command for interactive shells
+		# This source code is governed by a MIT-style license that can be found in
+		# the included LICENSE file. If not, see <https://mit-license.org/>.
+		#
+		# Source Code: https://github.com/robertlarocca/clean-command-history
+
+		# Enable the clean command
 		if [ -f /usr/local/bin/clean ]; then
 			. /usr/local/bin/clean
 		fi
@@ -32,6 +37,15 @@ main() {
 
 	chown root:root /etc/profile.d/clean.sh
 	chmod 0644 /etc/profile.d/clean.sh
+
+	# Interactive (login) shells
+	cat <<-EOF_XYZ >>/etc/bash.bashrc
+
+		# Enable the clean command
+		if [ -f /usr/local/bin/clean ]; then
+			. /usr/local/bin/clean
+		fi
+	EOF_XYZ
 }
 
 main "$@"
