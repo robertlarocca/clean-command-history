@@ -5,7 +5,7 @@
 # Remove history files created using the GNU History Library.
 
 script_version='2.1.0'
-script_release='beta'	# options devel, beta, release
+script_release='beta' # options devel, beta, release
 
 # Command
 alias clean="clean_gnu_history_library_files"
@@ -13,56 +13,56 @@ alias clean="clean_gnu_history_library_files"
 # Display help information
 clean_display_help_message() {
 	cat <<-EOF_XYZ
-	Usage: clean [OPTION] [TIME] [WALL]...
-	Remove history files created using the GNU History Library.
+		Usage: clean [OPTION] [TIME] [WALL]...
+		Remove history files created using the GNU History Library.
 
-	The following options and long options are understood:
-	  -A, --all		remove all history files and clear scrollback
-	  -a, --almost-all	remove most history files and clear scrollback
-	  -e, --exit		clean history and terminate the current shell
-	  -h, --halt		clean history and halt the machine
-	  -r, --reboot		clean history and reboot the machine
-	  -p, --poweroff	clean history and power-off the machine
-	  -s, --shutdown	clean history and shutdown the machine
-	  -G, --config		add the required enviroment variables to support clean
-	  -H, --help		print this help information
-	  -V, --version		print the version information
+		The following options and long options are understood:
+		  -A, --all         remove all history files and clear scrollback
+		  -a, --almost-all remove most history files and clear scrollback
+		  -e, --exit        clean history and terminate the current shell
+		  -h, --halt        clean history and halt the machine
+		  -r, --reboot      clean history and reboot the machine
+		  -p, --poweroff   clean history and power-off the machine
+		  -s, --shutdown   clean history and shutdown the machine
+		  -G, --config      add the required enviroment variables to support clean
+		  -H, --help        print this help information
+		  -V, --version     print the version information
 
-	The second argument must be a [TIME] string (the default is "now").
-	This may be followed with a [WALL] message. If included the message
-	will be broadcasted to users before shutdown.
+		The second argument must be a [TIME] string (the default is "now").
+		This may be followed with a [WALL] message. If included the message
+		will be broadcasted to users before shutdown.
 
-	Examples:
-	 clean -a
-	 clean --exit
-	 clean --reboot now
-	 clean --p +5 "shutdown initiated by clean.sh"
+		Examples:
+		 clean -a
+		 clean --exit
+		 clean --reboot now
+		 clean --p +5 "shutdown initiated by clean.sh"
 
-	History files:
-	 ansible
-	 bash_history
-	 bash_sessions
-	 lesshst
-	 mysql_history
-	 python_history
-	 viminfo
-	 wget-hsts
-	 zsh_history
+		History files:
+		 ansible
+		 bash_history
+		 bash_sessions
+		 lesshst
+		 mysql_history
+		 python_history
+		 viminfo
+		 wget-hsts
+		 zsh_history
 
-	Copyright:
-	 Copyright (c) 2018-$(date +%Y) Robert LaRocca, https://www.laroccx.com
-	 License: The MIT License (MIT)
-	 Source Code: https://github.com/robertlarocca/clean-command-history
+		Copyright:
+		 Copyright (c) 2018-$(date +%Y) Robert LaRocca, https://www.laroccx.com
+		 License: The MIT License (MIT)
+		 Source Code: https://github.com/robertlarocca/clean-command-history
 	EOF_XYZ
 }
 
 # Display version information
 clean_display_version_information() {
 	cat <<-EOF_XYZ
-	clean $script_version-$script_release
-	Copyright (c) 2018-$(date +%Y) Robert LaRocca, https://www.laroccx.com
-	License: The MIT License (MIT)
-	Source Code: https://github.com/robertlarocca/clean-command-history
+		clean $script_version-$script_release
+		Copyright (c) 2018-$(date +%Y) Robert LaRocca, https://www.laroccx.com
+		License: The MIT License (MIT)
+		Source Code: https://github.com/robertlarocca/clean-command-history
 	EOF_XYZ
 }
 
@@ -101,26 +101,26 @@ clean_configure_variables_to_source() {
 	local clean_binary="$(which clean)"
 
 	touch /etc/profile.d/clean.sh
-	cat <<-EOF_XYZ > /etc/profile.d/clean.sh
-	# Copyright (c) 2018-$(date +%Y) Robert LaRocca https://www.laroccx.com
+	cat <<-EOF_XYZ >/etc/profile.d/clean.sh
+		# Copyright (c) 2018-$(date +%Y) Robert LaRocca https://www.laroccx.com
 
-	# This source code is governed by a MIT-style license that can be found in
-	# the included LICENSE file. If not, see <https://mit-license.org/>.
-	#
-	# Source Code: https://github.com/robertlarocca/clean-command-history
+		# This source code is governed by a MIT-style license that can be found in
+		# the included LICENSE file. If not, see <https://mit-license.org/>.
+		#
+		# Source Code: https://github.com/robertlarocca/clean-command-history
 
-	# Enable the clean command
-	if [ -f "$clean_binary" ]; then
-		. $clean_binary
-	fi
+		# Enable the clean command
+		if [ -f "$clean_binary" ]; then
+			. $clean_binary
+		fi
 	EOF_XYZ
 
-	cat <<-EOF_XYZ >> /etc/bash.bashrc
+	cat <<-EOF_XYZ >>/etc/bash.bashrc
 
-	# Enable the clean command
-	if [ -f "$clean_binary" ]; then
-	 	. "$clean_binary"
-	fi
+		# Enable the clean command
+		if [ -f "$clean_binary" ]; then
+		  . "$clean_binary"
+		fi
 	EOF_XYZ
 }
 
@@ -183,8 +183,8 @@ clean_gnu_history_library_files() {
 			clean_remove_almost_all_history
 		else
 			cat <<-EOF_XYZ
-			clean: unrecognized option '$1'
-			Try 'clean --help' for more information.
+				clean: unrecognized option '$1'
+				Try 'clean --help' for more information.
 			EOF_XYZ
 		fi
 		;;
