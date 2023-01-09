@@ -5,7 +5,7 @@
 # Remove history files created using the GNU History Library.
 
 # Script version and release
-script_version='2.5.0'
+script_version='2.5.1'
 script_release='beta'  # options devel, beta, release, stable
 
 require_root_privileges() {
@@ -25,12 +25,10 @@ show_help_message() {
 	 all - remove all history files
 	 most - remove most history files
 
-	 exit - clean and terminate the current shell session
 	 halt - clean and halt
 	 reboot - clean and reboot
 	 poweroff - clean and poweroff
 	 shutdown - clean and shutdown
-	 config - add required enviroment variables to shell session
 
 	 version - show version information
 	 help - show this help message
@@ -41,10 +39,10 @@ show_help_message() {
 	to users before shutdown.
 
 	Examples:
-	 clean -a
-	 clean exit
+	 clean all
+	 clean most
 	 clean reboot now
-	 clean poweroff +5 "shutdown initiated by clean.sh"
+	 clean poweroff +5 "Poweroff initiated by clean.sh"
 
 	History files:
 	 ansible
@@ -118,13 +116,13 @@ configure_enviroment_variables() {
 
 	cat <<-EOF_XYZ | sudo tee /etc/profile.d/clean.sh
 	if [ -x "$clean_binary" ]; then
-		. $clean_binary
+	    . $clean_binary
 	fi
 	EOF_XYZ
 
 	cat <<-EOF_XYZ | sudo tee /etc/profile.d/clean.csh
 	if [ -x "$clean_binary" ]; then
-		. $clean_binary
+	    . $clean_binary
 	fi
 	EOF_XYZ
 
@@ -132,73 +130,64 @@ configure_enviroment_variables() {
 
 	# clean script
 	if [ -x "$clean_binary" ]; then
-		. "$clean_binary"
+	    . "$clean_binary"
 	fi
 	EOF_XYZ
 }
 
 # Options
-clean() {
-	case "$1" in
-	all)
-		remove_all_history
-		;;
-	most)
+case "$1" in
+all | -A)
+	remove_all_history
+	;;
+most | -a)
+	remove_most_history
+	;;
+halt)
+	remove_most_history
+	if [[ -z "$2" ]]; then
+		/usr/bin/sudo shutdown --halt +0
+	else
+		/usr/bin/sudo shutdown --halt "$2" "$3"
+	fi
+	;;
+reboot)
+	remove_most_history
+	if [[ -z "$2" ]]; then
+		/usr/bin/sudo shutdown --reboot +0
+	else
+		/usr/bin/sudo shutdown --reboot "$2" "$3"
+	fi
+	;;
+poweroff)
+	remove_most_history
+	if [[ -z "$2" ]]; then
+		/usr/bin/sudo shutdown --poweroff +0
+	else
+		/usr/bin/sudo shutdown --poweroff "$2" "$3"
+	fi
+	;;
+shutdown)
+	remove_most_history
+	if [[ -z "$2" ]]; then
+		/usr/bin/sudo shutdown --poweroff +0
+	else
+		/usr/bin/sudo shutdown --poweroff "$2" "$3"
+	fi
+	;;
+version)
+	show_version_information
+	;;
+help | --help)
+	show_help_message
+	;;
+*)
+	if [[ -z "$1" ]]; then
 		remove_most_history
-		;;
-	exit)
-		remove_most_history
-		exit 0
-		;;
-	halt)
-		remove_most_history
-		if [[ -z "$2" ]]; then
-			/usr/bin/sudo shutdown --halt +0
-		else
-			/usr/bin/sudo shutdown --halt "$2" "$3"
-		fi
-		;;
-	reboot)
-		remove_most_history
-		if [[ -z "$2" ]]; then
-			/usr/bin/sudo shutdown --reboot +0
-		else
-			/usr/bin/sudo shutdown --reboot "$2" "$3"
-		fi
-		;;
-	poweroff)
-		remove_most_history
-		if [[ -z "$2" ]]; then
-			/usr/bin/sudo shutdown --poweroff +0
-		else
-			/usr/bin/sudo shutdown --poweroff "$2" "$3"
-		fi
-		;;
-	shutdown)
-		remove_most_history
-		if [[ -z "$2" ]]; then
-			/usr/bin/sudo shutdown --poweroff +0
-		else
-			/usr/bin/sudo shutdown --poweroff "$2" "$3"
-		fi
-		;;
-	config)
-		configure_enviroment_variables
-		;;
-	version)
-		show_version_information
-		;;
-	help | --help)
-		show_help_message
-		;;
-	*)
-		if [[ -z "$1" ]]; then
-			remove_most_history
-		else
-			error_unrecognized_option "$1"
-		fi
-		;;
-	esac
-}
+	else
+		error_unrecognized_option "$1"
+	fi
+	;;
+esac
 
 # vi: syntax=sh ts=4 noexpandtab
