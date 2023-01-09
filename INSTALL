@@ -15,37 +15,37 @@ require_root_privileges
 
 main() {
 	# Install clean command
-	cp -b -S .bak -v $PWD/clean /usr/local/bin/
+	sudo cp -b -S .bak -v $PWD/clean.sh /usr/local/bin/clean
 
 	chown root:root /usr/local/bin/clean
 	chmod 0755 /usr/local/bin/clean
 
-	# Noninteractive (nologin) shells
-	cat <<-EOF_XYZ >/etc/profile.d/clean.sh
-		# Copyright (c) 2018-$(date +%Y) Robert LaRocca https://www.laroccx.com
+	# # Noninteractive (nologin) shells
+	# cat <<-EOF_XYZ | sudo tee /etc/profile.d/clean.csh
+	# # clean script
+	# if [ -f /usr/local/bin/clean ]; then
+	#   . /usr/local/bin/clean
+	# fi
+	# EOF_XYZ
 
-		# This source code is governed by a MIT-style license that can be found in
-		# the included LICENSE file. If not, see <https://mit-license.org/>.
-		#
-		# Source Code: https://github.com/robertlarocca/clean-command-history
+	# cat <<-EOF_XYZ | sudo tee /etc/profile.d/clean.sh
+	# # clean script
+	# if [ -f /usr/local/bin/clean ]; then
+	#   . /usr/local/bin/clean
+	# fi
+	# EOF_XYZ
 
-		# Enable the clean command
-		if [ -f /usr/local/bin/clean ]; then
-			. /usr/local/bin/clean
-		fi
-	EOF_XYZ
+	# chown root:root /etc/profile.d/clean.*sh
+	# chmod 0644 /etc/profile.d/clean.*sh
 
-	chown root:root /etc/profile.d/clean.sh
-	chmod 0644 /etc/profile.d/clean.sh
+	# # Interactive (login) shells
+	# cat <<-EOF_XYZ | sudo tee -a /etc/bash.bashrc
 
-	# Interactive (login) shells
-	cat <<-EOF_XYZ >>/etc/bash.bashrc
-
-		# Enable the clean command
-		if [ -f /usr/local/bin/clean ]; then
-			. /usr/local/bin/clean
-		fi
-	EOF_XYZ
+	# # clean script
+	# if [ -f /usr/local/bin/clean ]; then
+	#   . /usr/local/bin/clean
+	# fi
+	# EOF_XYZ
 }
 
 main "$@"
