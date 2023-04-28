@@ -5,8 +5,8 @@
 # Remove history files created using the GNU History Library.
 
 # Script version and release
-script_version='2.5.1'
-script_release='beta'  # options devel, beta, release, stable
+script_version='2.6.0'
+script_release='release'  # options devel, beta, release, stable
 
 require_root_privileges() {
 	if [[ "$(whoami)" != "root" ]]; then
@@ -111,37 +111,26 @@ remove_most_history() {
 	clear
 }
 
-configure_enviroment_variables() {
-	local clean_binary="$(which clean)"
-
-	cat <<-EOF_XYZ | sudo tee /etc/profile.d/clean.sh
-	if [ -x "$clean_binary" ]; then
-	    . $clean_binary
-	fi
-	EOF_XYZ
-
-	cat <<-EOF_XYZ | sudo tee /etc/profile.d/clean.csh
-	if [ -x "$clean_binary" ]; then
-	    . $clean_binary
-	fi
-	EOF_XYZ
-
-	cat <<-EOF_XYZ | sudo tee -a /etc/bash.bashrc
-
-	# clean script
-	if [ -x "$clean_binary" ]; then
-	    . "$clean_binary"
-	fi
-	EOF_XYZ
+remove_windows_history() {
+	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/PowerShell/PSReadLine/ConsoleHost_history.txt
+	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/Recent/*.lnk
+	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/Recent/AutomaticDestinations/*
+	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/Recent/CustomDestinations/*
+	history -c
+	clear
 }
 
 # Options
 case "$1" in
 all | -A)
 	remove_all_history
+	remove_windows_history
 	;;
 most | -a)
 	remove_most_history
+	;;
+windows | -w)
+	remove_windows_history
 	;;
 halt)
 	remove_most_history
@@ -190,4 +179,4 @@ help | --help)
 	;;
 esac
 
-# vi: syntax=sh ts=4 noexpandtab
+# vi: syntax=sh ts=2 noexpandtab

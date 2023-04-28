@@ -17,37 +17,10 @@ main() {
 	# Install clean command
 	sudo cp -b -S .bak -v $PWD/clean.sh /usr/local/bin/clean
 
-	chown root:root /usr/local/bin/clean
-	chmod 0755 /usr/local/bin/clean
-
-	# # Noninteractive (nologin) shells
-	# cat <<-EOF_XYZ | sudo tee /etc/profile.d/clean.csh
-	# # clean script
-	# if [ -f /usr/local/bin/clean ]; then
-	#   . /usr/local/bin/clean
-	# fi
-	# EOF_XYZ
-
-	# cat <<-EOF_XYZ | sudo tee /etc/profile.d/clean.sh
-	# # clean script
-	# if [ -f /usr/local/bin/clean ]; then
-	#   . /usr/local/bin/clean
-	# fi
-	# EOF_XYZ
-
-	# chown root:root /etc/profile.d/clean.*sh
-	# chmod 0644 /etc/profile.d/clean.*sh
-
-	# # Interactive (login) shells
-	# cat <<-EOF_XYZ | sudo tee -a /etc/bash.bashrc
-
-	# # clean script
-	# if [ -f /usr/local/bin/clean ]; then
-	#   . /usr/local/bin/clean
-	# fi
-	# EOF_XYZ
+	sudo chown root:root /usr/local/bin/clean
+	sudo chmod 0755 /usr/local/bin/clean
 }
 
 main "$@"
 
-# vi: syntax=sh ts=4 noexpandtab
+# vi: syntax=sh ts=2 noexpandtab
