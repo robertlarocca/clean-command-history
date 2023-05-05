@@ -148,15 +148,7 @@ reboot)
 		/usr/bin/sudo shutdown --reboot "$2" "$3"
 	fi
 	;;
-poweroff)
-	remove_most_history
-	if [[ -z "$2" ]]; then
-		/usr/bin/sudo shutdown --poweroff +0
-	else
-		/usr/bin/sudo shutdown --poweroff "$2" "$3"
-	fi
-	;;
-shutdown)
+poweroff | shutdown)
 	remove_most_history
 	if [[ -z "$2" ]]; then
 		/usr/bin/sudo shutdown --poweroff +0
