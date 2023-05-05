@@ -5,7 +5,7 @@
 # Remove history files created using the GNU History Library.
 
 # Script version and release
-script_version='2.6.0'
+script_version='2.6.1'
 script_release='release'  # options devel, beta, release, stable
 
 require_root_privileges() {
@@ -28,7 +28,7 @@ show_help_message() {
 	 halt - clean and halt
 	 reboot - clean and reboot
 	 poweroff - clean and poweroff
-	 shutdown - clean and shutdown
+	 shutdown - clean and shutdown (same as poweroff)
 
 	 version - show version information
 	 help - show this help message
