@@ -1,26 +1,9 @@
 #!/bin/bash
 
-# Copyright (c) 2022 Robert LaRocca http://www.laroccx.com
+# Copyright (c) 2023 Robert LaRocca http://www.laroccx.com
 
-# require root privileges
-require_root_privileges() {
-	if [ $(id -u) != 0 ]; then
-		logger -i "Error: $(basename $0 .sh) must be run as root!"
-		echo "Error: $(basename $0 .sh) must be run as root!"
-		exit 1
-	fi
-}
-
-require_root_privileges
-
-main() {
-	# Install clean command
-	sudo cp -b -S .bak -v $PWD/clean.sh /usr/local/bin/clean
-
-	sudo chown root:root /usr/local/bin/clean
-	sudo chmod 0755 /usr/local/bin/clean
-}
-
-main "$@"
+sudo cp -b -S .bak -v $PWD/clean.sh /usr/local/bin/clean
+sudo chown root:root /usr/local/bin/clean
+sudo chmod 0755 /usr/local/bin/clean
 
 # vi: syntax=sh ts=2 noexpandtab
