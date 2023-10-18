@@ -5,7 +5,7 @@
 # Remove history files created using the GNU History Library.
 
 # Script version and release
-script_version='2.6.1'
+script_version='2.7.0'
 script_release='release'  # options devel, beta, release, stable
 
 require_root_privileges() {
@@ -50,7 +50,9 @@ show_help_message() {
 	 bash_sessions
 	 lesshst
 	 mysql_history
+	 nano search_history
 	 python_history
+	 rediscli_history
 	 viminfo
 	 wget-hsts
 	 zsh_history
@@ -84,39 +86,43 @@ error_unrecognized_option() {
 }
 
 remove_all_history() {
+	logger -i "Notice: Removed all $(basename $SHELL) and command history from $HOME directory."
+	rm -f -r $HOME/.ansible
+	rm -f -r $HOME/.bash_sessions
 	rm -f $HOME/.bash_history
 	rm -f $HOME/.lesshst
+	rm -f $HOME/.local/share/nano/search_history
+	rm -f $HOME/.motd_shown
 	rm -f $HOME/.mysql_history
 	rm -f $HOME/.python_history
+	rm -f $HOME/.rediscli_history
 	rm -f $HOME/.selected_editor
 	rm -f $HOME/.sudo_as_admin_successful
 	rm -f $HOME/.viminfo
 	rm -f $HOME/.wget-hsts
 	rm -f $HOME/.zsh_history
-	rm -rf $HOME/.ansible
-	rm -rf $HOME/.bash_sessions
-	history -c
 	clear
 }
 
 remove_most_history() {
+	logger -i "Notice: Removed $(basename $SHELL) and command history from $HOME directory."
+	rm -f -r $HOME/.bash_sessions
 	rm -f $HOME/.bash_history
 	rm -f $HOME/.lesshst
 	rm -f $HOME/.mysql_history
 	rm -f $HOME/.python_history
+	rm -f $HOME/.rediscli_history
 	rm -f $HOME/.wget-hsts
 	rm -f $HOME/.zsh_history
-	rm -rf $HOME/.bash_sessions
-	history -c
 	clear
 }
 
 remove_windows_history() {
+	logger -i "Notice: Removed powershell and recent file history from c:\Users\\$USER directory."
 	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/PowerShell/PSReadLine/ConsoleHost_history.txt
 	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/Recent/*.lnk
 	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/Recent/AutomaticDestinations/*
 	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/Recent/CustomDestinations/*
-	history -c
 	clear
 }
 
@@ -166,7 +172,7 @@ help | --help)
 	if [[ -z "$1" ]]; then
 		remove_most_history
 	else
-		error_unrecognized_option "$1"
+		error_unrecognized_option "$*"
 	fi
 	;;
 esac
