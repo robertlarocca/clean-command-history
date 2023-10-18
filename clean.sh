@@ -101,6 +101,7 @@ remove_all_history() {
 	rm -f $HOME/.viminfo
 	rm -f $HOME/.wget-hsts
 	rm -f $HOME/.zsh_history
+	history -c
 	clear
 }
 
@@ -114,6 +115,7 @@ remove_most_history() {
 	rm -f $HOME/.rediscli_history
 	rm -f $HOME/.wget-hsts
 	rm -f $HOME/.zsh_history
+	history -c
 	clear
 }
 
@@ -123,6 +125,7 @@ remove_windows_history() {
 	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/Recent/*.lnk
 	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/Recent/AutomaticDestinations/*
 	rm -f /mnt/c/Users/$USER/AppData/Roaming/Microsoft/Windows/Recent/CustomDestinations/*
+	history -c
 	clear
 }
 
